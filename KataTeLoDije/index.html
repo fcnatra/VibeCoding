@@ -17,6 +17,13 @@
         <h2>Saved Predictions</h2>
         <ul id="predictions-list"></ul>
     </div>
+    <div id="prediction-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.5); z-index:1000; align-items:center; justify-content:center;">
+        <div style="background:#fff; border-radius:12px; padding:32px 24px; max-width:400px; width:90%; text-align:center; box-shadow:0 4px 24px rgba(0,0,0,0.15); position:relative;">
+            <h2 id="modal-title" style="margin-bottom:24px;"></h2>
+            <div id="modal-prediction-text" style="font-size:1.4rem; color:#2d3436; margin-bottom:32px;"></div>
+            <button id="close-modal" style="padding:8px 24px; font-size:1rem; background:#636e72; color:#fff; border:none; border-radius:4px; cursor:pointer;">Close</button>
+        </div>
+    </div>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="script.js"></script>
 </body>
