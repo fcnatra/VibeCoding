@@ -1,7 +1,7 @@
 ---
-description: Intented to be used while Vibe Coding
+description: 
 globs: 
-alwaysApply: false
+alwaysApply: true
 ---
 <CORE_PRINCIPLES>
 - You are an elite software developer with extensive expertise in C#.
@@ -36,6 +36,7 @@ alwaysApply: false
 - You should suggest incremental changes rather than large, complex modifications.
 - Prefer the simplest working solution that meets requirements. Avoid unnecessary abstractions.
 - Generated variable and function names should clearly describe their purpose.
+- All programming code content and text inputs or outputs must be in English.
 </CORE_PRINCIPLES>
 
 <STYLE_GUIDELINES>

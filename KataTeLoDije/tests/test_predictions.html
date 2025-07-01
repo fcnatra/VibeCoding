@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Prediction App Static Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f5f6fa; padding: 32px; }
+        .result { margin: 12px 0; padding: 12px; border-radius: 6px; }
+        .ok { background: #d4efdf; color: #145a32; }
+        .fail { background: #f9e79f; color: #7d6608; }
+    </style>
+</head>
+<body>
+    <h1>Prediction App Static Content Test</h1>
+    <div id="results"></div>
+    <script>
+    async function runTests() {
+        const results = document.getElementById('results');
+        let html = '';
+        try {
+            const response = await fetch('../index.html');
+            const text = await response.text();
+            // Test for prediction input
+            if (text.includes('placeholder="Enter your prediction"')) {
+                html += '<div class="result ok">OK: Prediction input field found</div>';
+            } else {
+                html += '<div class="result fail">FAIL: Prediction input field not found</div>';
+            }
+            // Test for date input
+            if (text.includes('type="date"')) {
+                html += '<div class="result ok">OK: Date input field found</div>';
+            } else {
+                html += '<div class="result fail">FAIL: Date input field not found</div>';
+            }
+            // Test for predictions list container
+            if (text.includes('id="predictions-list"')) {
+                html += '<div class="result ok">OK: Predictions list container found</div>';
+            } else {
+                html += '<div class="result fail">FAIL: Predictions list container not found</div>';
+            }
+        } catch (e) {
+            html += '<div class="result fail">ERROR: Could not load index.html (' + e.message + ')</div>';
+        }
+
+        // --- Dynamic test: add and delete a prediction ---
+        try {
+            // Clean up localStorage
+            localStorage.removeItem('predictions');
+            // Open the app in an iframe
+            let iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            iframe.src = '../index.html';
+            document.body.appendChild(iframe);
+            await new Promise(res => iframe.onload = res);
+            let win = iframe.contentWindow;
+            let doc = iframe.contentDocument;
+            // Fill the form
+            let input = doc.getElementById('prediction-input');
+            let dateInput = doc.getElementById('date-input');
+            let form = doc.getElementById('prediction-form');
+            let testText = 'Test prediction';
+            let today = new Date().toISOString().slice(0,10);
+            input.value = testText;
+            dateInput.value = today;
+            form.dispatchEvent(new win.Event('submit', { bubbles: true, cancelable: true }));
+            // Wait for DOM update
+            await new Promise(r => setTimeout(r, 200));
+            let list = doc.getElementById('predictions-list');
+            let found = Array.from(list.children).some(li => li.textContent.includes(testText));
+            if (found) {
+                html += '<div class="result ok">OK: Prediction added and found in the list</div>';
+            } else {
+                html += '<div class="result fail">FAIL: Prediction not found after adding</div>';
+            }
+            // Click the delete icon
+            let deleteBtn = list.querySelector('.delete-btn');
+            if (deleteBtn) {
+                deleteBtn.click();
+                await new Promise(r => setTimeout(r, 200));
+                let foundAfterDelete = Array.from(list.children).some(li => li.textContent.includes(testText));
+                if (!foundAfterDelete) {
+                    html += '<div class="result ok">OK: Prediction deleted successfully</div>';
+                } else {
+                    html += '<div class="result fail">FAIL: Prediction still present after delete</div>';
+                }
+            } else {
+                html += '<div class="result fail">FAIL: Delete icon not found</div>';
+            }
+            // Clean up
+            document.body.removeChild(iframe);
+            localStorage.removeItem('predictions');
+        } catch (e) {
+            html += '<div class="result fail">ERROR: Dynamic add/delete test failed (' + e.message + ')</div>';
+        }
+
+        results.innerHTML = html;
+    }
+    runTests();
+    </script>
+</body>
+</html> 
