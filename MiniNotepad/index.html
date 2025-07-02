@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mini Notepad</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poiret+One&display=swap" rel="stylesheet">
@@ -17,11 +18,12 @@
       <textarea class="note-input-content" placeholder="Contenido" rows="2" required maxlength="500"></textarea>
       <button type="submit" class="note-add-btn">Agregar nota</button>
     </form>
+    <input type="text" class="note-search-input" placeholder="Buscar notas...">
     <div class="notes-list">
       <!-- Las notas se renderizarán aquí dinámicamente -->
     </div>
   </main>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="script.js"></script>
+  <script type="module" src="script.js"></script>
 </body>
 </html> 

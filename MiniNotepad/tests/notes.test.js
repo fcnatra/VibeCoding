@@ -1,4 +1,5 @@
-const { addNote, resetNotes, listNotes, deleteNote, filterNotes } = require('../notes');
+import { jest } from '@jest/globals';
+import { addNote, resetNotes, listNotes, deleteNote, filterNotes } from '../notes.js';
 
 describe('addNote', () => {
   beforeEach(() => {

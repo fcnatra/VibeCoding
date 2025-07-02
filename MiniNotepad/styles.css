@@ -130,4 +130,24 @@ body {
 
 .note-delete-btn:hover svg {
   fill: #e57373;
+}
+
+.note-search-input {
+  width: 100%;
+  font-size: 1rem;
+  padding: 10px 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  background: #fff;
+  color: #222;
+  outline: none;
+  margin-bottom: 28px;
+  margin-top: 0;
+  box-sizing: border-box;
+  font-family: 'Poiret One', Arial, sans-serif;
+  transition: border 0.2s;
+}
+
+.note-search-input:focus {
+  border: 1.5px solid #a3a3ff;
 } 

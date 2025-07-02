@@ -1,5 +1,4 @@
-// eslint-disable-next-line no-undef
-const { listNotes, addNote, deleteNote } = require('./notes');
+import { listNotes, addNote, deleteNote } from './notes.js';
 
 function renderNotes() {
   const $notesList = $('.notes-list');

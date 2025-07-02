@@ -46,4 +46,4 @@ function resetNotes() {
   notas = [];
 }
 
-module.exports = { addNote, resetNotes, listNotes, deleteNote, filterNotes }; 
+export { addNote, resetNotes, listNotes, deleteNote, filterNotes }; 
