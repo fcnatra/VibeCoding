@@ -1,4 +1,4 @@
-const { addNote, resetNotes } = require('../notes');
+const { addNote, resetNotes, listNotes } = require('../notes');
 
 describe('addNote', () => {
   beforeEach(() => {
@@ -34,5 +34,13 @@ describe('addNote', () => {
     const nuevaNota = { id: 4, title: 'Nota persistente', content: 'Contenido persistente' };
     const notasActualizadas = addNote(nuevaNota);
     expect(setItemMock).toHaveBeenCalledWith('notes', JSON.stringify(notasActualizadas));
+  });
+
+  it('debe devolver el array actual de notas con listNotes', () => {
+    const nuevaNota = { id: 5, title: 'Nota para listar', content: 'Contenido para listar' };
+    addNote(nuevaNota);
+    const notas = listNotes();
+    expect(notas.length).toBe(1);
+    expect(notas[0]).toEqual(nuevaNota);
   });
 }); 

@@ -12,8 +12,12 @@ function addNote(nuevaNota) {
   return notas;
 }
 
+function listNotes() {
+  return notas;
+}
+
 function resetNotes() {
   notas = [];
 }
 
-module.exports = { addNote, resetNotes }; 
+module.exports = { addNote, resetNotes, listNotes }; 

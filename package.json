@@ -1,0 +1,23 @@
+{
+  "name": "vibecoding",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fcnatra/VibeCoding.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fcnatra/VibeCoding/issues"
+  },
+  "homepage": "https://github.com/fcnatra/VibeCoding#readme",
+  "description": "",
+  "devDependencies": {
+    "jest": "^30.0.3"
+  }
+}
