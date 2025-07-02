@@ -1,9 +1,11 @@
-import { listNotes, addNote, deleteNote } from './notes.js';
+import { listNotes, addNote, deleteNote, filterNotes } from './notes.js';
 
-function renderNotes() {
+let currentQuery = '';
+
+function renderNotes(query = '') {
   const $notesList = $('.notes-list');
   $notesList.empty();
-  const notas = listNotes();
+  let notas = query ? filterNotes(query) : listNotes();
   if (notas.length === 0) {
     $notesList.append('<div style="color:#888; text-align:center;">No hay notas aún.</div>');
   } else {
@@ -18,7 +20,7 @@ function renderNotes() {
       $deleteBtn.on('click', function (e) {
         e.preventDefault();
         deleteNote(nota.id);
-        renderNotes();
+        renderNotes(currentQuery);
       });
       $block.append($deleteBtn);
       $block.append(`<div class="note-title">${nota.title}</div>`);
@@ -43,6 +45,12 @@ $(document).ready(function () {
     };
     addNote(nuevaNota);
     this.reset();
-    renderNotes();
+    currentQuery = $('.note-search-input').val().trim();
+    renderNotes(currentQuery);
+  });
+
+  $('.note-search-input').on('input', function () {
+    currentQuery = $(this).val().trim();
+    renderNotes(currentQuery);
   });
 }); 

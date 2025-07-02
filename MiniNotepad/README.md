@@ -25,9 +25,19 @@ Un microproducto que permita a los usuarios:
 - Lógica separada de la UI (por ejemplo, en `notes.js`)
 
 ## Cómo Ejecutar
-1. Abre `index.html` en tu navegador (no requiere servidor)
-2. Usa el formulario para añadir notas
-3. Busca y elimina notas según sea necesario
+1. Asegúrate de tener Node.js instalado.
+2. Abre una terminal y ejecuta:
+   ```
+   npx serve MiniNotepad
+   ```
+   o alternativamente:
+   ```
+   npx http-server MiniNotepad
+   ```
+3. Abre la URL que te indique el servidor (por defecto http://localhost:3000) en tu navegador moderno.
+4. ¡Listo! Ya puedes usar Mini Notepad como SPA.
+
+> **Nota:** Abrir el archivo `index.html` directamente no funcionará correctamente por el uso de ES modules. Es necesario usar un servidor local.
 
 ## Cómo Probar
 - Pruebas unitarias para la lógica de notas (añadir, eliminar, filtrar) usando Jest, Mocha u otro
