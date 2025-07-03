@@ -47,4 +47,31 @@ function resetNotes() {
   saveNotes(notas);
 }
 
-export { addNote, resetNotes, listNotes, deleteNote, filterNotes }; 
+function exportNotes() {
+  return JSON.stringify(notas, null, 2);
+}
+
+function importNotes(json) {
+  let nuevasNotas;
+  try {
+    nuevasNotas = JSON.parse(json);
+    if (!Array.isArray(nuevasNotas)) return 0;
+  } catch (e) {
+    return 0;
+  }
+  let count = 0;
+  nuevasNotas.forEach(nota => {
+    if (!notas.some(n => n.title === nota.title && n.content === nota.content)) {
+      notas.push({
+        id: Date.now() + Math.floor(Math.random() * 100000),
+        title: nota.title,
+        content: nota.content
+      });
+      count++;
+    }
+  });
+  saveNotes(notas);
+  return count;
+}
+
+export { addNote, resetNotes, listNotes, deleteNote, filterNotes, exportNotes, importNotes }; 

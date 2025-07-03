@@ -1,5 +1,5 @@
 import { jest } from '@jest/globals';
-import { addNote, resetNotes, listNotes, deleteNote, filterNotes } from '../notes.js';
+import { addNote, resetNotes, listNotes, deleteNote, filterNotes, exportNotes, importNotes } from '../notes.js';
 
 describe('addNote', () => {
   beforeEach(() => {
@@ -77,5 +77,41 @@ describe('addNote', () => {
     expect(setItemMock).toHaveBeenCalledWith('notes', JSON.stringify([{ id: 200, title: 'Nota persistente', content: 'Contenido' }]));
     resetNotes();
     expect(setItemMock).toHaveBeenCalledWith('notes', JSON.stringify([]));
+  });
+
+  it('debe exportar todas las notas como JSON', () => {
+    resetNotes();
+    addNote({ id: 1, title: 'Exportar', content: 'Contenido exportar' });
+    addNote({ id: 2, title: 'Otra', content: 'Más contenido' });
+    const json = exportNotes();
+    const arr = JSON.parse(json);
+    expect(arr.length).toBe(2);
+    expect(arr[0].title).toBe('Exportar');
+    expect(arr[1].content).toBe('Más contenido');
+  });
+
+  it('debe importar notas fusionando y sin duplicados por título y contenido', () => {
+    resetNotes();
+    addNote({ id: 1, title: 'A', content: 'Uno' });
+    addNote({ id: 2, title: 'B', content: 'Dos' });
+    const nuevas = [
+      { title: 'A', content: 'Uno' }, // duplicada
+      { title: 'C', content: 'Tres' }, // nueva
+      { title: 'B', content: 'Dos' }, // duplicada
+      { title: 'D', content: 'Cuatro' } // nueva
+    ];
+    const count = importNotes(JSON.stringify(nuevas));
+    const notas = listNotes();
+    expect(count).toBe(2);
+    expect(notas.length).toBe(4);
+    expect(notas.some(n => n.title === 'C' && n.content === 'Tres')).toBe(true);
+    expect(notas.some(n => n.title === 'D' && n.content === 'Cuatro')).toBe(true);
+  });
+
+  it('debe manejar errores de formato al importar', () => {
+    resetNotes();
+    expect(importNotes('no es json')).toBe(0);
+    expect(importNotes('{}')).toBe(0);
+    expect(importNotes('[]')).toBe(0);
   });
 }); 

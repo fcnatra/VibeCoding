@@ -1,4 +1,4 @@
-import { listNotes, addNote, deleteNote, filterNotes, resetNotes } from './notes.js';
+import { listNotes, addNote, deleteNote, filterNotes, resetNotes, exportNotes, importNotes } from './notes.js';
 
 let currentQuery = '';
 
@@ -30,13 +30,28 @@ function renderNotes(query = '') {
   }
 }
 
+function showAlert(message) {
+  const alertModal = document.getElementById('alert-modal');
+  const alertText = document.getElementById('alert-modal-text');
+  const closeBtn = document.getElementById('close-alert-modal');
+  if (alertModal && alertText && closeBtn) {
+    alertText.textContent = message;
+    alertModal.style.display = 'flex';
+    closeBtn.onclick = () => {
+      alertModal.style.display = 'none';
+    };
+  }
+}
+
 $(document).ready(function () {
   renderNotes();
 
   $('.note-form').on('submit', function (e) {
     e.preventDefault();
-    const title = $('.note-input-title').val().trim();
-    const content = $('.note-input-content').val().trim();
+    const titleInput = $('.note-input-title');
+    const contentInput = $('.note-input-content');
+    const title = titleInput.val().trim();
+    const content = contentInput.val().trim();
     if (!title || !content) return;
     const nuevaNota = {
       id: Date.now(),
@@ -47,6 +62,7 @@ $(document).ready(function () {
     this.reset();
     currentQuery = $('.note-search-input').val().trim();
     renderNotes(currentQuery);
+    titleInput.focus();
   });
 
   $('.note-search-input').on('input', function () {
@@ -54,6 +70,53 @@ $(document).ready(function () {
     renderNotes(currentQuery);
   });
 
+  // Exportar notas
+  const exportBtn = document.getElementById('export-notes-btn');
+  if (exportBtn) {
+    exportBtn.addEventListener('click', () => {
+      const data = exportNotes();
+      const blob = new Blob([data], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'notas.json';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    });
+  }
+
+  // Importar notas
+  const importBtn = document.getElementById('import-notes-btn');
+  const importFile = document.getElementById('import-notes-file');
+  if (importBtn && importFile) {
+    importBtn.addEventListener('click', () => {
+      importFile.value = '';
+      importFile.click();
+    });
+    importFile.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function (evt) {
+        try {
+          const count = importNotes(evt.target.result);
+          if (count > 0) {
+            showAlert(`Se importaron ${count} nota(s) nuevas.`);
+            renderNotes();
+          } else {
+            showAlert('No se importaron notas nuevas.');
+          }
+        } catch (err) {
+          showAlert('Error al importar las notas.');
+        }
+      };
+      reader.readAsText(file);
+    });
+  }
+
+  // Confirmación de borrado masivo
   const deleteAllBtn = document.getElementById('delete-all-btn');
   const confirmModal = document.getElementById('confirm-modal');
   const confirmDeleteAll = document.getElementById('confirm-delete-all');
