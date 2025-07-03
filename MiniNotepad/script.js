@@ -1,4 +1,4 @@
-import { listNotes, addNote, deleteNote, filterNotes } from './notes.js';
+import { listNotes, addNote, deleteNote, filterNotes, resetNotes } from './notes.js';
 
 let currentQuery = '';
 
@@ -53,4 +53,23 @@ $(document).ready(function () {
     currentQuery = $(this).val().trim();
     renderNotes(currentQuery);
   });
+
+  const deleteAllBtn = document.getElementById('delete-all-btn');
+  const confirmModal = document.getElementById('confirm-modal');
+  const confirmDeleteAll = document.getElementById('confirm-delete-all');
+  const cancelDeleteAll = document.getElementById('cancel-delete-all');
+
+  if (deleteAllBtn && confirmModal && confirmDeleteAll && cancelDeleteAll) {
+    deleteAllBtn.addEventListener('click', () => {
+      confirmModal.style.display = 'flex';
+    });
+    confirmDeleteAll.addEventListener('click', () => {
+      resetNotes();
+      renderNotes();
+      confirmModal.style.display = 'none';
+    });
+    cancelDeleteAll.addEventListener('click', () => {
+      confirmModal.style.display = 'none';
+    });
+  }
 }); 

@@ -68,4 +68,14 @@ describe('addNote', () => {
     expect(resultado.length).toBe(1);
     expect(resultado[0].id).toBe(2);
   });
+
+  it('debe borrar todas las notas con resetNotes y vaciar localStorage', () => {
+    // Mock de localStorage
+    const setItemMock = jest.fn();
+    global.localStorage = { setItem: setItemMock, getItem: jest.fn(), clear: jest.fn() };
+    addNote({ id: 200, title: 'Nota persistente', content: 'Contenido' });
+    expect(setItemMock).toHaveBeenCalledWith('notes', JSON.stringify([{ id: 200, title: 'Nota persistente', content: 'Contenido' }]));
+    resetNotes();
+    expect(setItemMock).toHaveBeenCalledWith('notes', JSON.stringify([]));
+  });
 }); 

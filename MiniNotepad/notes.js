@@ -44,6 +44,7 @@ function filterNotes(query) {
 
 function resetNotes() {
   notas = [];
+  saveNotes(notas);
 }
 
 export { addNote, resetNotes, listNotes, deleteNote, filterNotes }; 
