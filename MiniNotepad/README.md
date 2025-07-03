@@ -46,6 +46,7 @@ Un microproducto que permita a los usuarios:
   ```
   node --experimental-vm-modules node_modules/jest/bin/jest.js
   ```
+- Dentro de la carpeta tests hay un archivo por lotes que facilita la ejecución de los tests
 
 ## Estructura de Archivos
 - `index.html` – Página principal de la app
