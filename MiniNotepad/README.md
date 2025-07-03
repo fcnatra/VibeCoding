@@ -42,6 +42,10 @@ Un microproducto que permita a los usuarios:
 ## Cómo Probar
 - Pruebas unitarias para la lógica de notas (añadir, eliminar, filtrar) usando Jest, Mocha u otro
 - Ejemplo: `addNote` incrementa el array y persiste, `deleteNote` elimina solo la nota indicada, `filterNotes` encuentra coincidencias parciales y es insensible a mayúsculas/minúsculas
+- [July, 2025] Dado que los tests utilizan la sintaxis de módulos ES, para probar ejecuta el comando: (ver https://jestjs.io/docs/ecmascript-modules)
+  ```
+  node --experimental-vm-modules node_modules/jest/bin/jest.js
+  ```
 
 ## Estructura de Archivos
 - `index.html` – Página principal de la app
@@ -50,4 +54,5 @@ Un microproducto que permita a los usuarios:
 - `tests/` – Pruebas unitarias para la lógica de notas
 
 ## Autor
-VibeCoding Team
+Tolosilla IA + Frank Torres
+Formatted by: Claude-4-sonnet
